@@ -1,7 +1,7 @@
 import zmq
-import math
-import time
 import random
+import time
+import math
 
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
@@ -10,15 +10,12 @@ socket.connect('tcp://127.0.0.1:5555')
 
 class InstrumentPrice(object):
     def __init__(self):
-        self.symbol = 'SYMBOL'
+        self.symbol = 'AAPL'
         self.t = time.time()
         self.value = 100.
         self.sigma = 0.4
         self.r = 0.01
-
-    def simulate_value(self):
-        ''' Generates a new, random stock price.
-        '''
+    def simulateValue(self):
         t = time.time()
         dt = (t - self.t) / (252 * 8 * 60 * 60)
         dt *= 500
@@ -30,7 +27,7 @@ class InstrumentPrice(object):
 ip = InstrumentPrice()
 
 while True:
-    msg = '{} {:.2f}'.format(ip.symbol, ip.simulate_value())
+    msg = '{} {:.2f}'.format(ip.symbol, ip.simulateValue())
     print(msg)
     socket.send_string(msg)
     time.sleep(random.random() * 2)
